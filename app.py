@@ -6,7 +6,9 @@ import plotly.graph_objects as go
 import joblib
 from tensorflow.keras.models import load_model
 
+# ----------------------------
 # Load Saved Models
+# ----------------------------
 
 @st.cache_resource
 def load_arima():
@@ -24,7 +26,9 @@ def load_scaler():
         return None  # if not available
 
 
+# ----------------------------
 # Streamlit UI
+# ----------------------------
 
 st.set_page_config(page_title="AAPL Stock Forecast", layout="wide")
 st.title("📈 AAPL Stock Forecast Web App")
@@ -43,14 +47,16 @@ df = yf.download("AAPL", start="2015-01-01")
 if isinstance(df.columns, pd.MultiIndex):
     df.columns = [col[0] for col in df.columns]
 
-df = df[["Close"]]  
+df = df[["Close"]]  # use Close price
 df.dropna(inplace=True)
 
 st.line_chart(df)
 
 series = df["Close"]
 
+# ----------------------------
 # Produce Forecast
+# ----------------------------
 
 if st.sidebar.button("Generate Forecast"):
     st.subheader(f"🔮 Forecast for next {forecast_days} days using {model_choice}")
